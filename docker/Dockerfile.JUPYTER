@@ -1,0 +1,3 @@
+# prepare jupyterhub
+COPY ./docker/jupyterhub_config.py /tmp/jupyterhub_config.py
+

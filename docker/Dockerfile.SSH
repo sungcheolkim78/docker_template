@@ -1,0 +1,17 @@
+# SSH configuration
+RUN mkdir -p /var/run/sshd /var/log/supervisor
+ADD ./docker/sshd.conf /etc/supervisor/conf.d/sshd.conf
+ENV NOTVISIBLE "in users profile"
+RUN echo "export VISIBLE=now" >> /etc/profile
+EXPOSE 22
+
+RUN mkdir /home/${ID_NAME}/.ssh
+COPY ./docker/authorized_keys /home/${ID_NAME}/.ssh/authorized_keys
+RUN chown -R ${ID_NAME}:${ID_NAME} /home/${ID_NAME}
+
+USER ${ID_NAME}
+RUN chmod 700 /home/${ID_NAME}/.ssh
+RUN chmod 600 /home/${ID_NAME}/.ssh/authorized_keys
+
+USER root
+
